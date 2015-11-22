@@ -1,0 +1,34 @@
+
+<div id="list_form"><form method='post' action='/login'>
+
+    <h3>Login[{{ is_local }}]</h3>
+	<p >
+      <label for='keycode'>Key:</label>
+
+      <input name='keycode' type='password' value='' id='keycode'/>
+    </p>
+	{% ifequal is_local 0 %}
+	<p >
+  <script type="text/javascript"
+     src="http://www.google.com/recaptcha/api/challenge?k=6LehkcISAAAAAFyZkRh9E6fs2ysTDBWxO_SaQjw4">
+  </script>
+  <noscript>
+     <iframe src="http://www.google.com/recaptcha/api/noscript?k=6LehkcISAAAAAFyZkRh9E6fs2ysTDBWxO_SaQjw4"
+         height="300" width="500" frameborder="0"></iframe><br>
+     <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+     </textarea>
+     <input type="hidden" name="recaptcha_response_field"
+         value="manual_challenge">
+  </noscript>
+    </p>
+	{% endifequal %}
+    <p >
+      <input name='action' value='Continue...' type='submit' id='submit-login' />
+    </p>
+  </div>
+  <input name='continue' type='hidden' value='{{ login_url }}'/>
+  <input name='admin' type='hidden' value='True' />
+
+</form>
+
+</div>

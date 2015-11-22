@@ -1,0 +1,90 @@
+
+<div id="head"><h1>目录：{{ mycat }}</h1> - <a href="/" class="sh">彩票博客，彩票人生</a></div>
+
+<div id="blog">
+
+{% for item in blogs %}
+<div class="entry" id="entry_{{ item.index }}"><a title="permanent link" class="link" href="/entry/{{ item.index }}"><b>{{ item.title|escape }}</b></a> - <span class="small">{{ item.created|slice:":19" }} 
+{% ifnotequal nickname "" %}
+[<a href="javascript:void(0);" class="del" id="did_{{ item.index }}">x</a>] [<a class="msg" href="javascript:void(0);" id="sn_{{ item.index }}">e</a>]
+{% endifnotequal %}
+</span><br>
+in <a href="/category/{{ item.cat|urlencode }}/">{{ item.cat }}</a> with tags: 
+
+{% for tag in item.tags %}
+<a href="/tag/{{ tag|urlencode }}/">{{ tag }}</a>, 
+{% endfor %}
+
+
+<div class="entry_detail">{{ item.body|linebreaks }}</div></div>
+{% endfor %}
+
+
+{% ifequal asum 0 %}<p class="noentry">No Entry. {% ifnotequal nickname "" %}You can delete this category. [<a href="/dc/{{ mycat }}/" class="del" id="dcat" title="{{ mycat }}">x</a>]{% endifnotequal %}</p>{% endifequal %}
+
+<div class="pages">{% ifnotequal apages 1 %}更多内容：
+{% ifequal apages 1 %}{% else %}
+ {% ifequal apage_l 1 %}{% else %}
+ <a href="/" >|<</a>
+ {% endifequal %}
+ {% ifequal acp 1 %}{% else %}
+    {% ifequal apage_l 1 %}
+ <a href="/" ><<</a>
+	{% else %}
+ <a href="/category/{{ mycat }}/{{ apage_l }}" ><<</a>
+    {% endifequal %}
+ {% endifequal %}
+{% endifequal %}
+
+{% for apage in apages %}
+{% ifequal apage acp %}
+   <a >{{ apage }}</a>
+{% else %}
+   {% ifequal apage 1 %}
+   <a href="/" >{{ apage }}</a>
+   {% else %}
+   <a href="/category/{{ mycat }}/{{ apage }}" >{{ apage }}</a>
+   {% endifequal %}
+{% endifequal %}
+{% endfor %}
+
+{% ifequal apage_max 1 %}{% else %}
+ {% ifequal acp apage_max %}{% else %}
+ <a href="/category/{{ mycat }}/{{ apage_n }}" >>></a>
+ {% endifequal %}
+ {% ifequal apage_n apage_max %}{% else %}
+ <a href="/category/{{ mycat }}/{{ apage_max }}" >>|</a>
+ {% endifequal %}
+{% endifequal %}
+{% endifnotequal %}
+</div>
+
+{% ifnotequal nickname "" %}<div style="clear:both;"></div>
+<div id="publish"><h2>发布内容</h2><form id="myform" action="/save" enctype="multipart/form-data" method="post">
+            <div>标题: <input id="title" name="title" type="text" value="" size="45">小于500Bytes</div>
+            {% include "editor.html" %}
+			<div>目录: <input id="category" name="category" type="text" value="{{ mycat }}" size="15"></div>
+			<div>标签: <input id="tag" name="tag" type="text" value="blog" size="45"> </div>
+			<div>注意: 用逗号分隔多个标签，最多五个标签。 </div>
+            <!--<div>附件一: <input type="file" name="fj1" /> 小于1MB</div>
+			<div>说明一: <input id="fjsm1" name="fjsm1" type="text" value="" size="25">小于500Bytes</div>-->
+			<div><input id="index" name="index" type="hidden" value="0"><input id="gosubmit" type="submit" value="提交"></form> </div>
+          </form></div>{% endifnotequal %}
+
+
+
+</div>
+
+<div id="nav"><a href="/">Home</a> | {% ifequal nickname "" %}<a href="/dl">login</a>{% else %}<a href="{{ logout }}">logout</a>{% endifequal %}</div>
+
+<h3>{% ifequal nickname "" %}福彩双色球{% else %}Hello, {{ nickname }}{% endifequal %}</h3>
+
+
+{% for item in msgs %}
+<p class="entry" >{{ item.numb1 }}, {{ item.numb2 }}, {{ item.numb3 }}, {{ item.numb4 }}, {{ item.numb5 }}, {{ item.numb6 }}, <b>{{ item.numb7 }}</b> - {{ item.date }}</p>
+{% endfor %}
+
+{% include "sidebar.html" %}
+
+
+{% include "inc_footer.html" %}

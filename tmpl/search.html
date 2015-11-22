@@ -1,0 +1,49 @@
+
+<div id="head"><h1>本站搜索结果</h1> - <a href="/" class="sh">彩票博客，彩票人生</a></div>
+
+<div id="blog">
+
+{% include "searchbox.html" %}
+
+<div id="cse-search-results" style="margin:0 auto;width:474px;overflow:hidden;"></div>
+<script type="text/javascript">
+  var googleSearchIframeName = "cse-search-results";
+  var googleSearchFormName = "cse-search-box";
+  var googleSearchFrameWidth = 474;
+  var googleSearchDomain = "www.google.com.hk";
+  var googleSearchPath = "/cse";
+</script>
+<script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
+
+
+
+{% ifnotequal nickname "" %}<div style="clear:both;"></div>
+<div id="publish"><h2>发布内容</h2><form id="myform" action="/save" enctype="multipart/form-data" method="post">
+            <div>标题: <input id="title" name="title" type="text" value="" size="45">小于500Bytes</div>
+            <div><textarea id="body" name="body" rows="10" cols="50"></textarea><br>支持HTML语法，小于1MB</div>
+			<div>目录: <input id="category" name="category" type="text" value="{{ mycat }}" size="15"></div>
+			<div>标签: <input id="tag" name="tag" type="text" value="blog" size="45"> </div>
+			<div>注意: 用逗号分隔多个标签，最多五个标签。 </div>
+            <!--<div>附件一: <input type="file" name="fj1" /> 小于1MB</div>
+			<div>说明一: <input id="fjsm1" name="fjsm1" type="text" value="" size="25">小于500Bytes</div>-->
+			<div><input id="index" name="index" type="hidden" value="0"><input id="gosubmit" type="submit" value="提交"></form> </div>
+          </form></div>{% endifnotequal %}
+
+
+
+</div>
+
+<div id="nav"><a href="/">Home</a> | {% ifequal nickname "" %}<a href="/dl">login</a>{% else %}<a href="{{ logout }}">logout</a>{% endifequal %}</div>
+
+<h3>{% ifequal nickname "" %}福彩双色球{% else %}Hello, {{ nickname }}{% endifequal %}</h3>
+
+
+{% for item in msgs %}
+<p class="entry" >{{ item.numb1 }}, {{ item.numb2 }}, {{ item.numb3 }}, {{ item.numb4 }}, {{ item.numb5 }}, {{ item.numb6 }}, <b>{{ item.numb7 }}</b> - {{ item.date }}</p>
+{% endfor %}
+
+{% include "sidebar.html" %}
+
+
+<div style="clear:both;"></div>
+<div id="foot">Just an another blog of <a href="http://www.zhaiduo.com">Zhaiduo</a>, at wancp.info since Feb 22, 2011.</div>

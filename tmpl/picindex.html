@@ -1,0 +1,63 @@
+
+{% extends "base.html" %}
+
+{% block incl_mainbody %}
+
+{% for item in pics %}
+<div class="entry" id="entry_{{ item.index }}">
+<b>[{{ item.entryIndex }}]第{{ item.index }}张图片</b> - <span class="small">{{ item.created|slice:":19" }} 
+</span><br>
+
+<div class="entry_detail">
+<img src="/{{ item.index }}/{{ item.info }}" width="450"><br>
+<span class="del_img">点击图片[{{ item.info }}]删除</span>
+</div>
+
+</div>
+{% endfor %}
+
+{% ifnotequal nickname "" %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.entry_detail img').each(function(){
+		var imgsrc=$(this).attr('src');
+		if(imgsrc.match(/\/([0-9]+)\/([0-9a-z_\-\.]+)\.(jpg|gif|png)$/i)){
+			var imgid=RegExp.$1;
+			var imgname=RegExp.$2+'.'+RegExp.$3;
+			$(this).click(function(){
+				var _self=$(this);
+				if(confirm('Are you sure to delete image ['+imgname+']?')){
+					$.ajax({
+					   type: "GET",
+					   url: "/rm/"+imgid+"/"+escape(imgname),
+					   error: function(msg){
+						 alert('Failed to delete');
+					   },
+					   success: function(msg){
+						 if(msg){
+							 if(msg.err){
+								alert('Error: '+msg.err);
+							 }else{
+								_self.remove();
+							 }
+						 }else{
+							alert('Please Login First.');
+						 }
+					   }
+					 });
+				 }
+			});
+			//$(this).append('<br>[<a class="delimg" href="javascript:void(0);" id="dimg_'+imgid+'">Del '+imgname+'?</a>]<br>');
+		}
+	});
+
+	
+});
+</script>
+{% endifnotequal %}
+
+{% include "pics_apaging.html" %}
+
+{% endblock %}
+
+

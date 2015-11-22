@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block incl_mainhead %}<a href="/" class="sh">彩票博客，彩票人生</a>{% endblock %}
+
+{% block incl_mainbody %}
+<div class="entry" id="entry_{{ singlepage.index }}"><h1>{{ singlepage.title|escape }}{%ifnotequal acp 1%}(第{{acp}}页){%endifnotequal%}</h1> published at <span class="small">{{ singlepage.created|slice:":19" }} 
+{% ifnotequal nickname "" %}
+[<a href="javascript:void(0);" class="del" key="{{ singlepage.key.name }}" id="sdid_{{ singlepage.index }}">x</a>] [<a class="msg" href="javascript:void(0);" id="ssn_{{ singlepage.index }}" key="{{ singlepage.key.name }}">e</a>]
+{% endifnotequal %}
+</span>
+<div class="entry_detail">{{ singlepage.body|linebreaks }}</div></div>
+
+<div class="pages">{% ifnotequal apage_max 1 %}更多页：
+{% ifequal apage_max 1 %}{% else %}
+ {% ifequal apage_l 1 %}{% else %}
+ <a href="/{{myindexpage}}" >第1页</a>
+ {% endifequal %}
+ {% ifequal acp 1 %}{% else %}
+    {% ifequal apage_l 1 %}
+ <a href="/{{myindexpage}}" >第1页</a>
+	{% else %}
+ <a href="/{{myindexpage}}{{ apage_l }}" >上一页</a>
+    {% endifequal %}
+ {% endifequal %}
+{% endifequal %}
+
+{% for apage in apages %}
+{% ifequal apage acp %}
+   <a >{{ apage }}</a>
+{% else %}
+   {% ifequal apage 1 %}
+   <a href="/{{myindexpage}}" >{{ apage }}</a>
+   {% else %}
+   <a href="/{{myindexpage}}{{ apage }}" >{{ apage }}</a>
+   {% endifequal %}
+{% endifequal %}
+{% endfor %}
+
+{% ifequal apage_max 1 %}{% else %}
+ {% ifequal acp apage_max %}{% else %}
+ <a href="/{{myindexpage}}{{ apage_n }}" >下一页</a>
+ {% endifequal %}
+ {% ifequal apage_n apage_max %}{% else %}
+ <a href="/{{myindexpage}}{{ apage_max }}" >末页</a>
+ {% endifequal %}
+{% endifequal %}
+{% endifnotequal %}
+</div>
+
+{% endblock %}

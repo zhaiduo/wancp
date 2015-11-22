@@ -1,0 +1,37 @@
+
+<div class="pages2">{% ifnotequal page_max 1 %}历史记录：{%endifnotequal%}
+{% ifequal page_max 1 %}{% else %}
+ {% ifequal page_l 1 %}{% else %}
+ <a href="/" >|<</a>
+ {% endifequal %}
+ {% ifequal cp 1 %}{% else %}
+    {% ifequal page_l 1 %}
+ <a href="/" ><<</a>
+	{% else %}
+ <a href="/c/{{ page_l }}" ><<</a>
+    {% endifequal %}
+ {% endifequal %}
+{% endifequal %}
+
+{% for page in pages %}
+{% ifequal page cp %}
+   <a >{{ page }}</a>
+{% else %}
+   {% ifequal page 1 %}
+   <a href="/" >{{ page }}</a>
+   {% else %}
+   <a href="/c/{{ page }}" >{{ page }}</a>
+   {% endifequal %}
+{% endifequal %}
+{% endfor %}
+
+{% ifequal page_max 1 %}{% else %}
+ {% ifequal cp page_max %}{% else %}
+ <a href="/c/{{ page_n }}" >>></a>
+ {% endifequal %}
+ {% ifequal page_n page_max %}{% else %}
+ <a href="/c/{{ page_max }}" >>|</a>
+ {% endifequal %}
+{% endifequal %}
+
+</div>

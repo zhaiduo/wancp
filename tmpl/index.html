@@ -1,0 +1,80 @@
+
+{% extends "base.html" %}
+
+{% block incl_mainbody %}
+{% ifequal page_type "a" %}
+
+
+{% include "searchbox.html" %}
+
+目录: {% for item in cats %}
+<span class="small"><a href="/category/{{ item.name|urlencode }}/">{{ item.name }}</a></span> |
+{% endfor %}<br>
+
+标签: {% for item in tags %}
+<span class="small"><a href="/tag/{{ item.name|urlencode }}/">{{ item.name }}</a></span>,
+{% endfor %}
+
+{% for item in blogs %}
+<div class="entry" id="entry_{{ item.index }}"><a title="permanent link" class="link" href="/entry/{{ item.index }}"><b>{{ item.title|escape }}</b></a> - <span class="small">{{ item.created|slice:":19" }} 
+{% ifnotequal nickname "" %}
+[<a href="javascript:void(0);" class="del" id="did_{{ item.index }}">x</a>] [<a class="msg" href="javascript:void(0);" id="sn_{{ item.index }}">e</a>]
+{% endifnotequal %}
+</span><br>
+in <a href="/category/{{ item.cat|urlencode }}/">{{ item.cat }}</a> with tags: 
+
+{% for tag in item.tags %}
+<a href="/tag/{{ tag|urlencode }}/">{{ tag }}</a>, 
+{% endfor %}
+
+
+<div class="entry_detail">{{ item.body|linebreaks }}</div>
+
+{% ifnotequal nickname "" %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.entry_detail img').each(function(){
+		var imgsrc=$(this).attr('src');
+		if(imgsrc.match(/^http:\/\/[0-9a-z.:\-]+\/([0-9]+)\/([0-9a-z_\-\.]+)\.(jpg|gif|png)/i)){
+			var imgid=RegExp.$1;
+			var imgname=RegExp.$2+'.'+RegExp.$3;
+			$(this).click(function(){
+				var _self=$(this);
+				if(confirm('Are you sure to delete image ['+imgname+']?')){
+					$.ajax({
+					   type: "GET",
+					   url: "/rm/"+imgid+"/"+escape(imgname),
+					   error: function(msg){
+						 alert('Failed to delete');
+					   },
+					   success: function(msg){
+						 if(msg){
+							 if(msg.err){
+								alert('Error: '+msg.err);
+							 }else{
+								_self.remove();
+							 }
+						 }else{
+							alert('Please Login First.');
+						 }
+					   }
+					 });
+				 }
+			});
+			//$(this).append('<br>[<a class="delimg" href="javascript:void(0);" id="dimg_'+imgid+'">Del '+imgname+'?</a>]<br>');
+		}
+	});
+});
+</script>
+{% endifnotequal %}
+
+</div>
+{% endfor %}
+
+{% include "apaging.html" %}
+
+
+{% endifequal %}{% endblock %}
+
+{% block incl_cppaging %}{% include "cppaging.html" %}{% endblock %}
+

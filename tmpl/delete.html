@@ -1,0 +1,15 @@
+
+<div id="list_form"><form method='post' action='{{ action }}'>
+    <h3>删除{{ target }} [ {{ name }} ] </h3>
+	<p >
+     <font color="#ff0000"> {{ info }}</font>
+    </p>
+    <p >
+      <input name='action' value='确定删除？' type='submit' id='submit-del' />
+	  <input name='cancel' value='取消' type='button' onclick="history.go(-1);" id='submit-cancel' />
+    </p>
+  </div>
+
+</form>
+
+</div>

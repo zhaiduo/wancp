@@ -1,0 +1,56 @@
+
+<div id="head">{% block incl_mainhead %}<h1><a href="/">彩票博客，彩票人生</a></h1>不只是记录彩票，也记录乐趣和人生{% endblock %}</div>
+<div id="blog">
+{% block incl_mainbody %}{% endblock %}
+
+{% ifnotequal nickname "" %}<div style="clear:both;"></div>
+<div id="publish"><h2>发布内容</h2><form id="myform" action="/save" method="post">
+<input id="editId" name="editId" type="hidden" value="0">
+            <div>标题: <input id="title" name="title" type="text" value="" size="45">小于500Bytes</div>
+            {% include "editor.html" %}
+			<div>目录: <input id="category" name="category" type="text" value="default" size="15"></div>
+			<div>标签: <input id="tag" name="tag" type="text" value="blog" size="45"> </div>
+			<div>注意: 用逗号分隔多个标签，最多五个标签。 </div>
+            <!--<div>附件一: <input type="file" name="fj1" /> 小于1MB</div>
+			<div>说明一: <input id="fjsm1" name="fjsm1" type="text" value="" size="25">小于500Bytes</div>-->
+			<div><input id="index" name="index" type="hidden" value="0"><input id="gosubmit" type="submit" value="提交"> </div>
+          </form></div>{% endifnotequal %}
+</div>
+
+<div id="nav"><a href="/">Home</a> | {% ifequal nickname "" %}<a href="/dl">login</a>{% else %}<a href="{{ logout }}">logout</a>{% endifequal %}
+
+</div>
+
+
+<h1>{{ title }}</h1><h3>{% ifequal nickname "" %}福彩双色球{% else %}Hello, {{ nickname }}{% endifequal %}</h3>
+
+
+<p>Rcent {{ sum }} records: ({{ mycounter }} visits)</p>
+
+{% for item in msgs %}
+<p class="entry" >{{ item.numb1 }}, {{ item.numb2 }}, {{ item.numb3 }}, {{ item.numb4 }}, {{ item.numb5 }}, {{ item.numb6 }}, <b>{{ item.numb7 }}</b> - {{ item.date }}</p>
+{% endfor %}
+
+{% block incl_cppaging %}{% endblock %}
+
+{% include "sidebar.html" %}
+
+{% ifnotequal nickname "" %}
+<div><br>
+	<b>系统管理</b><br><br>
+          <form action="/update" method="post">
+            <input type="submit" value="Grab Data"></form>
+            <a href="/r">Refresh Home</a><br>
+			<a href="/singlepage/">Add Single Page</a><br>
+			<a href="/mng/pics/">Pics Management</a><br>
+			<a href="/mng/links/">Links Management</a><br>
+
+			<!--<form style="display:inline;" action="/empty" method="post">
+			<input type="submit" name="empty" value="Clear All">
+          </form>-->
+		  </div>
+		  {% endifnotequal %}
+
+
+{% include "inc_footer.html" %}
+

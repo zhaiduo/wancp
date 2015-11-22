@@ -1,0 +1,64 @@
+
+<div id="head"><a href="/" class="sh">彩票博客，彩票人生</a></div>
+
+<div id="blog">
+
+<div class="entry" id="entry_{{ item.index }}"><h1>{{ title }}</h1>published at <span class="small">{{ created|slice:":19" }} 
+{% ifnotequal nickname "" %}
+[<a href="javascript:void(0);" class="del" id="did_{{ index }}">x</a>] [<a class="msg" href="javascript:void(0);" id="sn_{{ index }}">e</a>]
+{% endifnotequal %}
+</span><br>
+in <a href="/category/{{ cat|urlencode }}/">{{ cat }}</a> with tags: 
+
+{% for tag in tags %}
+<a href="/tag/{{ tag|urlencode }}/">{{ tag }}</a>, 
+{% endfor %}
+
+
+<div class="entry_detail">{{ body|linebreaks }}</div></div>
+
+
+
+<div class="pages">
+{% if more_entries %}更多内容：{% endif %}
+<ul class="more">{% for item in more_entries %}
+<li><a href="{{ item.url }}">{{ item.header }}</a></li>
+{% endfor %}</ul>
+
+<p>
+&laquo; <a href="javascript:void(0);" onclick="history.go(-1);">Back</a> | <a href="/">Home</a>
+</p>
+</div>
+
+
+
+{% ifnotequal nickname "" %}<div style="clear:both;"></div>
+<div id="publish"><h2>发布内容</h2><form id="myform" action="/save" enctype="multipart/form-data" method="post">
+            <div>标题: <input id="title" name="title" type="text" value="" size="45">小于500Bytes</div>
+            {% include "editor.html" %}
+			<div>目录: <input id="category" name="category" type="text" value="{{ mycat }}" size="15"></div>
+			<div>标签: <input id="tag" name="tag" type="text" value="blog" size="45"> </div>
+			<div>注意: 用逗号分隔多个标签，最多五个标签。 </div>
+            <!--<div>附件一: <input type="file" name="fj1" /> 小于1MB</div>
+			<div>说明一: <input id="fjsm1" name="fjsm1" type="text" value="" size="25">小于500Bytes</div>-->
+			<div><input id="index" name="index" type="hidden" value="0"><input id="gosubmit" type="submit" value="提交"></form> </div>
+          </form></div>{% endifnotequal %}
+
+
+
+</div>
+
+<div id="nav"><a href="/">Home</a> | {% ifequal nickname "" %}<a href="/dl">login</a>{% else %}<a href="{{ logout }}">logout</a>{% endifequal %}</div>
+
+<h3>{% ifequal nickname "" %}福彩双色球{% else %}Hello, {{ nickname }}{% endifequal %}</h3>
+
+
+{% for item in msgs %}
+<p class="entry" >{{ item.numb1 }}, {{ item.numb2 }}, {{ item.numb3 }}, {{ item.numb4 }}, {{ item.numb5 }}, {{ item.numb6 }}, <b>{{ item.numb7 }}</b> - {{ item.date }}</p>
+{% endfor %}
+
+{% include "sidebar.html" %}
+
+
+{% include "inc_footer.html" %}
+

@@ -1,0 +1,38 @@
+
+<div class="pages">{% ifnotequal apage_max 1 %}更多内容：
+{% ifequal apage_max 1 %}{% else %}
+ {% ifequal apage_l 1 %}{% else %}
+ <a href="/" >|<</a>
+ {% endifequal %}
+ {% ifequal acp 1 %}{% else %}
+    {% ifequal apage_l 1 %}
+ <a href="/" ><<</a>
+	{% else %}
+ <a href="/{{ apage_l }}" ><<</a>
+    {% endifequal %}
+ {% endifequal %}
+{% endifequal %}
+
+{% for apage in apages %}
+{% ifequal apage acp %}
+   <a >{{ apage }}</a>
+{% else %}
+   {% ifequal apage 1 %}
+   <a href="/" >{{ apage }}</a>
+   {% else %}
+   <a href="/{{ apage }}" >{{ apage }}</a>
+   {% endifequal %}
+{% endifequal %}
+{% endfor %}
+
+{% ifequal apage_max 1 %}{% else %}
+ {% ifequal acp apage_max %}{% else %}
+ <a href="/{{ apage_n }}" >>></a>
+ {% endifequal %}
+ {% ifequal apage_n apage_max %}{% else %}
+ <a href="/{{ apage_max }}" >>|</a>
+ {% endifequal %}
+{% endifequal %}
+{% endifnotequal %}
+</div>
+

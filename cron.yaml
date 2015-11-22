@@ -1,0 +1,4 @@
+cron:
+- description: daily prefresh cache job
+  url: /tasks/prefresh
+  schedule: every 12 hours
